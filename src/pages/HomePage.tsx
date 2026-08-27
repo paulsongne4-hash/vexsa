@@ -55,23 +55,20 @@ export const HomePage: React.FC = () => {
           HERO SECTION (High-Tech & Immersive)
       ══════════════════════════════════════════ */}
       <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center py-16 sm:py-24 overflow-hidden">
-        {/* Background Image with Layered Overlays */}
+        {/* Background Image with Crisp Presentation */}
         <div className="absolute inset-0 z-0">
           <img
             src="/hero-bg.png"
             alt="VEXSA Digital Ecosystem"
-            className="w-full h-full object-cover object-center scale-105 filter brightness-[1.02] contrast-[1.02]"
+            className="w-full h-full object-cover object-center"
           />
-          {/* Subtle gradient overlays to ensure extreme text readability and brand elegance */}
-          <div className="absolute inset-0 bg-white/75 sm:bg-white/70 backdrop-blur-[1px]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/50 to-white" />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-transparent to-white/90" />
+          {/* Subtle translucent gradient overlays to preserve image clarity while highlighting text */}
+          <div className="absolute inset-0 bg-white/20 sm:bg-white/10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-[#F8FAFC]" />
         </div>
 
-        {/* Ambient glows */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[400px] bg-gradient-to-tr from-blue-500/15 to-cyan-400/10 rounded-full blur-3xl pointer-events-none z-0" />
-        <div className="absolute top-1/4 left-[10%] w-[220px] h-[220px] bg-blue-600/10 rounded-full blur-2xl pointer-events-none animate-pulse-slow z-0" />
-        <div className="absolute bottom-1/4 right-[8%] w-[260px] h-[260px] bg-cyan-400/10 rounded-full blur-3xl pointer-events-none z-0" />
+        {/* Ambient subtle glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none z-0" />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center space-y-7 sm:space-y-9">
