@@ -21,8 +21,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['"Fira Code"', 'monospace']
+        sans: ['"Plus Jakarta Sans"', 'Outfit', 'system-ui', 'sans-serif'],
+        display: ['Outfit', '"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'monospace']
       },
       boxShadow: {
         'glow-blue': '0 0 25px -5px rgba(37, 99, 235, 0.35)',

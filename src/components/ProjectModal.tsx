@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, CheckCircle2, Layers, Cpu, Calendar, ShieldAlert, Sparkles, ArrowRight } from 'lucide-react';
+import { X, ExternalLink, CheckCircle2, Calendar, ShieldAlert, Sparkles, ArrowRight } from 'lucide-react';
 import { Project } from '../types';
 
 interface ProjectModalProps {

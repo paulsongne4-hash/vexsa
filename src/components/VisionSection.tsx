@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Quote, Sparkles, Compass, Lightbulb } from 'lucide-react';
+import { Quote, Compass, Lightbulb } from 'lucide-react';
 
 export const VisionSection: React.FC = () => {
   return (

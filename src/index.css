@@ -89,9 +89,47 @@ img {
   image-rendering: -webkit-optimize-contrast;
 }
 
+/* ─── Buttons Glow & Magnetic Shimmer (Inspired by high-conversion landing pages) ─── */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.45);
+}
+
+.btn-glow:hover {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow: 0 16px 35px -5px rgba(37, 99, 235, 0.6);
+}
+
+.btn-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-100%);
+}
+
+.btn-glow:hover::after {
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.lift-hover {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s;
+}
+.lift-hover:hover {
+  transform: translateY(-3px) scale(1.01);
+}
+
 /* ─── Focus visible (accessibility) ─────────────── */
 *:focus-visible {
   outline: 2px solid #2563EB;
   outline-offset: 2px;
   border-radius: 4px;
 }
+

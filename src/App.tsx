@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { FloatingContact } from './components/FloatingContact';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ProjectsPage } from './pages/ProjectsPage';
@@ -24,6 +25,7 @@ export function App() {
           </Routes>
         </main>
         <Footer />
+        <FloatingContact />
       </div>
     </BrowserRouter>
   );

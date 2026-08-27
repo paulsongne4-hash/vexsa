@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -16,8 +16,15 @@ import {
   Users,
   ArrowUpRight,
   Mail,
+  Zap,
+  CheckCircle2,
+  Lock,
+  Clock
 } from 'lucide-react';
 import { projectsData } from '../data/projects';
+import { ProjectEstimator } from '../components/ProjectEstimator';
+import { ProjectModal } from '../components/ProjectModal';
+import { Project } from '../types';
 
 /* ─── Helpers ─────────────────────────────────── */
 const fadeUp = (delay = 0) => ({
@@ -38,13 +45,14 @@ const getProjectIcon = (iconName: string) => {
 /* ─── Component ───────────────────────────────── */
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const featuredProjects = projectsData.filter((p) => p.highlighted).slice(0, 3);
 
   return (
     <div className="overflow-x-hidden">
 
       {/* ══════════════════════════════════════════
-          HERO
+          HERO SECTION (High-Tech & Immersive)
       ══════════════════════════════════════════ */}
       <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center py-16 sm:py-24 overflow-hidden">
         {/* Background Image with Layered Overlays */}
@@ -76,7 +84,7 @@ export const HomePage: React.FC = () => {
                   alt="VEXSA"
                   className="w-5 h-5 object-contain"
                 />
-                <span className="text-xs sm:text-sm font-bold text-slate-900 tracking-wide">
+                <span className="text-xs sm:text-sm font-bold text-slate-900 tracking-wide font-mono">
                   VEXSA<span className="text-blue-600">.</span>
                 </span>
                 <span className="w-1 h-1 rounded-full bg-slate-300" />
@@ -85,10 +93,10 @@ export const HomePage: React.FC = () => {
                 </span>
               </div>
 
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 backdrop-blur-md border border-blue-200/70 shadow-sm">
-                <span className="flex h-2 w-2 rounded-full bg-blue-600 animate-ping flex-shrink-0" />
-                <span className="text-xs sm:text-sm font-semibold text-blue-800 tracking-wide">
-                  Écosystème Technologique & Digital — 2026
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 backdrop-blur-md border border-blue-200/70 shadow-sm font-mono">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping flex-shrink-0" />
+                <span className="text-xs font-semibold text-blue-900 tracking-wide">
+                  ÉCOSYSTÈME 2026 // OPÉRATIONNEL
                 </span>
                 <Sparkles className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
               </div>
@@ -97,7 +105,7 @@ export const HomePage: React.FC = () => {
             {/* Headline */}
             <motion.h1
               {...fadeUp(0.08)}
-              className="text-4xl sm:text-6xl lg:text-[5.25rem] font-extrabold tracking-tight text-slate-900 leading-[1.08]"
+              className="text-4xl sm:text-6xl lg:text-[5.25rem] font-black tracking-tight text-slate-900 leading-[1.08] font-display"
             >
               L'écosystème qui transforme les{' '}
               <span className="relative inline-block">
@@ -113,8 +121,7 @@ export const HomePage: React.FC = () => {
               {...fadeUp(0.16)}
               className="text-base sm:text-xl text-slate-700 leading-relaxed max-w-3xl mx-auto font-medium"
             >
-              VEXSA conçoit et développe des solutions technologiques, digitales et innovantes pour simplifier
-              la vie des utilisateurs et créer de nouvelles opportunités pour les entreprises de demain.
+              VEXSA conçoit et développe des solutions technologiques, digitales et innovantes : plateformes SaaS, intelligence artificielle appliquée, applications mobiles et outils métiers sur-mesure.
             </motion.p>
 
             {/* CTAs */}
@@ -123,17 +130,21 @@ export const HomePage: React.FC = () => {
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2"
             >
               <button
-                onClick={() => navigate('/projects')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 sm:px-9 py-3.5 sm:py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-200"
+                onClick={() => {
+                  const el = document.getElementById('estimator');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl bg-blue-600 text-white font-bold text-sm sm:text-base shadow-lg"
               >
-                <span>Découvrir nos projets</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Zap className="w-4 h-4 text-amber-300" />
+                <span>Simuler mon projet</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
               <button
-                onClick={() => navigate('/about')}
+                onClick={() => navigate('/projects')}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 rounded-xl bg-white/95 hover:bg-white text-slate-800 font-semibold text-sm sm:text-base border border-slate-200/90 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 backdrop-blur-sm"
               >
-                <span>Explorer VEXSA</span>
+                <span>Explorer l'écosystème</span>
               </button>
             </motion.div>
 
@@ -147,8 +158,8 @@ export const HomePage: React.FC = () => {
               {[
                 { icon: Cpu,     label: 'Intelligence Artificielle' },
                 { icon: Layers,  label: 'Plateformes SaaS' },
-                { icon: Sparkles,label: 'Outils Numériques' },
-                { icon: Shield,  label: 'Architecture Robuste' },
+                { icon: Smartphone, label: 'Applications Mobiles' },
+                { icon: Shield,  label: 'Architecture Robuste 99.9%' },
               ].map(({ icon: Icon, label }) => (
                 <div
                   key={label}
@@ -164,10 +175,39 @@ export const HomePage: React.FC = () => {
 
         {/* Scroll hint */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-70 animate-bounce pointer-events-none z-10">
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-600">Défiler</span>
+          <span className="text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-600">Découvrir</span>
           <ChevronDown className="w-4 h-4 text-blue-600" />
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════
+          MÉTRIQUES & CHIFFRES CLÉS (Barre de Réassurance)
+      ══════════════════════════════════════════ */}
+      <section className="py-10 bg-slate-900 text-white border-y border-slate-800 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { num: '100%', label: 'Propriété du Code', sub: 'Livraison clé en main' },
+              { num: '< 24h', label: 'Temps de réponse', sub: 'Support & audit réactif' },
+              { num: '99.9%', label: 'Disponibilité Cloud', sub: 'Infrastructures scalables' },
+              { num: '10+', label: 'Solutions Conçues', sub: 'SaaS, IA & Mobile' },
+            ].map((stat, idx) => (
+              <div key={idx} className="space-y-1">
+                <div className="text-2xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-mono">
+                  {stat.num}
+                </div>
+                <div className="text-xs sm:text-sm font-bold text-white tracking-tight">{stat.label}</div>
+                <div className="text-[11px] text-slate-400 font-medium">{stat.sub}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          CONFIGURATEUR / ESTIMATEUR DE PROJET (Inspiré gosenbrik.com)
+      ══════════════════════════════════════════ */}
+      <ProjectEstimator />
 
       {/* ══════════════════════════════════════════
           COMMENT ÇA MARCHE — 3 Étapes
@@ -183,45 +223,44 @@ export const HomePage: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-center max-w-2xl mx-auto mb-14 sm:mb-20 space-y-4"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wider uppercase">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wider uppercase font-mono">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Notre Approche</span>
+              <span>Méthodologie VEXSA</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-display">
               De l'idée à l'<span className="text-blue-600">impact</span>
             </h2>
             <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-              Trois phases simples, une philosophie unique — faire émerger les meilleures idées et les pousser jusqu'à l'excellence.
+              Trois phases simples, une philosophie unique — faire émerger les meilleures idées et les pousser jusqu'à l'excellence opérationnelle.
             </p>
           </motion.div>
 
           {/* Steps */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 relative">
-            {/* Connecting line (desktop only) */}
             <div className="hidden md:block absolute top-10 left-[calc(16.66%+1.5rem)] right-[calc(16.66%+1.5rem)] h-px bg-gradient-to-r from-blue-200 via-blue-400 to-cyan-300 z-0" />
 
             {[
               {
                 step: '01',
                 icon: Lightbulb,
-                title: 'Imaginer',
-                desc: 'Identifier un besoin réel, challenger l\'idée et définir la vision produit avec une précision stratégique.',
+                title: 'Imaginer & Cadrer',
+                desc: 'Identifier un besoin réel, challenger l\'architecture et définir la roadmap avec une précision stratégique.',
                 color: 'bg-slate-100 text-slate-700',
                 ring: 'ring-slate-200',
               },
               {
                 step: '02',
                 icon: Hammer,
-                title: 'Construire',
-                desc: 'Concevoir, développer et itérer rapidement avec les meilleures technologies disponibles.',
+                title: 'Construire & Développer',
+                desc: 'Concevoir l\'interface UI/UX, développer avec les stacks les plus robustes et itérer rapidement sans friction.',
                 color: 'bg-blue-600 text-white shadow-lg shadow-blue-600/30',
                 ring: 'ring-blue-200',
               },
               {
                 step: '03',
                 icon: Rocket,
-                title: 'Propulser',
-                desc: 'Déployer, scaler et intégrer chaque solution dans l\'écosystème VEXSA pour maximiser la valeur.',
+                title: 'Propulser & Scaler',
+                desc: 'Déployer sur une infrastructure cloud haute disponibilité et intégrer chaque produit dans l\'écosystème VEXSA.',
                 color: 'bg-gradient-to-br from-blue-700 to-cyan-500 text-white shadow-lg shadow-cyan-500/20',
                 ring: 'ring-cyan-200',
               },
@@ -232,12 +271,12 @@ export const HomePage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.12, duration: 0.5 }}
-                className="relative z-10 flex flex-col items-center text-center p-7 sm:p-8 rounded-2xl bg-white border border-slate-200/80 shadow-card hover:shadow-card-hover transition-all duration-300"
+                className="lift-hover relative z-10 flex flex-col items-center text-center p-7 sm:p-8 rounded-2xl bg-white border border-slate-200/80 shadow-card"
               >
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ring-4 ${ring} ${color} transition-all`}>
                   <Icon className="w-7 h-7" />
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-1">{step}</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-blue-500 mb-1">{step}</span>
                 <h3 className="text-xl font-bold text-slate-900 mb-3">{title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
               </motion.div>
@@ -247,7 +286,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* ══════════════════════════════════════════
-          PROJETS VEDETTES
+          PROJETS VEDETTES / CATALOGUE INTERACTIF
       ══════════════════════════════════════════ */}
       <section className="py-20 sm:py-28 bg-slate-50/60 border-t border-slate-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -255,11 +294,11 @@ export const HomePage: React.FC = () => {
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
             <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wider uppercase font-mono">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Projets Phares</span>
+                <span>Solutions Phares</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-display">
                 Nos solutions en action
               </h2>
             </div>
@@ -267,7 +306,7 @@ export const HomePage: React.FC = () => {
               onClick={() => navigate('/projects')}
               className="flex-shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors group"
             >
-              Voir tous les projets
+              Voir tout le catalogue ({projectsData.length})
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
@@ -284,7 +323,7 @@ export const HomePage: React.FC = () => {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
                   whileHover={{ y: -5 }}
-                  onClick={() => navigate('/projects')}
+                  onClick={() => setSelectedProject(project)}
                   className="group cursor-pointer bg-white rounded-2xl border border-slate-200/80 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden flex flex-col"
                 >
                   {/* Card header */}
@@ -293,8 +332,8 @@ export const HomePage: React.FC = () => {
                       <div className="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                         <Icon className="w-5 h-5" />
                       </div>
-                      <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-                        {project.status}
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                        {project.status.toUpperCase()}
                       </span>
                     </div>
                     <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
@@ -303,10 +342,20 @@ export const HomePage: React.FC = () => {
                     <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">
                       {project.shortDescription}
                     </p>
+
+                    {/* Tech pills */}
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {project.technologies.slice(0, 3).map((tech) => (
+                        <span key={tech} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
+
                   {/* Card footer */}
                   <div className="px-5 sm:px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-blue-600">
-                    <span>En savoir plus</span>
+                    <span>Voir la fiche détaillée</span>
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
                 </motion.div>
@@ -317,10 +366,62 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* ══════════════════════════════════════════
+          POURQUOI CHOISIR VEXSA (Garanties & Confiance)
+      ══════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-white border-t border-slate-100 relative">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wider uppercase font-mono">
+              <Shield className="w-3.5 h-3.5" />
+              <span>Normes & Excellence</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-display">
+              Pourquoi construire avec <span className="text-blue-600">VEXSA</span> ?
+            </h2>
+            <p className="text-slate-600 text-base sm:text-lg">
+              Une alliance unique entre rigueur d'ingénierie, réactivité agile et design contemporain.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: CheckCircle2,
+                title: 'Qualité de Code & Scalabilité',
+                desc: 'Architecture modulaire TypeScript/React, API sécurisées et conformité totale avec les standards cloud modernes.'
+              },
+              {
+                icon: Clock,
+                title: 'Livraison Rapide & Sprints Courts',
+                desc: 'Développement itératif avec jalons hebdomadaires, prototypes testables et visibilité totale sur l\'avancement.'
+              },
+              {
+                icon: Lock,
+                title: 'Sécurité & Propriété Intégrale',
+                desc: 'Code source 100% transféré, protection des données et accompagnement technique après déploiement.'
+              }
+            ].map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div key={idx} className="p-6 sm:p-8 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
           MANIFESTE / CITATION
       ══════════════════════════════════════════ */}
-      <section className="py-20 sm:py-28 bg-white border-t border-slate-100 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/[0.03] to-cyan-500/[0.03] pointer-events-none" />
+      <section className="py-20 sm:py-28 bg-[#F8FAFC] border-t border-slate-200/80 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -329,10 +430,10 @@ export const HomePage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-blue-600">
-              Manifeste VEXSA
+            <p className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-[0.25em] text-blue-600">
+              MANIFESTE VEXSA
             </p>
-            <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-tight tracking-tight">
+            <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 leading-tight tracking-tight font-display">
               "Une idée peut devenir un produit.{' '}
               <span className="text-blue-600">Un produit peut devenir une solution.</span>{' '}
               Une solution peut devenir un écosystème."
@@ -345,7 +446,7 @@ export const HomePage: React.FC = () => {
       {/* ══════════════════════════════════════════
           CTA FINAL
       ══════════════════════════════════════════ */}
-      <section className="py-20 sm:py-28 bg-[#0B132B] relative overflow-hidden border-t border-blue-900/40">
+      <section id="contact-cta" className="py-20 sm:py-28 bg-[#0B132B] relative overflow-hidden border-t border-blue-900/40">
         {/* Ambient */}
         <div className="absolute top-0 right-0 w-72 sm:w-96 h-72 sm:h-96 bg-blue-600/12 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-72 sm:w-96 h-72 sm:h-96 bg-cyan-500/8 rounded-full blur-3xl pointer-events-none" />
@@ -358,12 +459,12 @@ export const HomePage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="space-y-6 sm:space-y-8"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600/20 border border-blue-500/30 text-blue-300 text-xs font-bold tracking-wider uppercase">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600/20 border border-blue-500/30 text-blue-300 text-xs font-bold tracking-wider uppercase font-mono">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
-              <span>Écosystème actif & opérationnel</span>
+              <span>DISPONIBLE POUR NOUVEAUX PROJETS</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight font-display">
               Un projet ? Une idée ?{' '}
               <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
                 Construisons-la ensemble.
@@ -377,23 +478,32 @@ export const HomePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
               <button
                 onClick={() => navigate('/contact')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-base shadow-lg shadow-blue-600/30 hover:-translate-y-0.5 transition-all duration-200"
+                className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-blue-600 text-white font-bold text-base shadow-lg"
               >
                 <Mail className="w-4 h-4" />
                 <span>Nous contacter</span>
               </button>
-              <button
-                onClick={() => navigate('/services')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-base border border-white/15 hover:border-white/25 transition-all duration-200"
+              <a
+                href="https://wa.me/?text=Bonjour%20VEXSA,%20je%20souhaite%20discuter%20d'un%20projet."
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 font-bold text-base border border-emerald-500/30 transition-all duration-200"
               >
-                <span>Voir nos services</span>
+                <span>WhatsApp Direct</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </a>
             </div>
           </motion.div>
         </div>
       </section>
 
+      {/* Modal Details */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+
     </div>
   );
 };
+

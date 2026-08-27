@@ -11,7 +11,6 @@ import {
   Image as ImageIcon, 
   Users, 
   Layers,
-  CheckCircle,
   Filter
 } from 'lucide-react';
 import { projectsData } from '../data/projects';

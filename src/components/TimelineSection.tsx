@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { History, PlayCircle, Rocket, Sparkles, CheckCircle } from 'lucide-react';
+import { History, PlayCircle, Rocket, Sparkles } from 'lucide-react';
 
 export const TimelineSection: React.FC = () => {
   const steps = [
